@@ -14,6 +14,8 @@ class Product(db.Model):
     stock = db.Column(db.Integer, default=0)
     category = db.Column(db.String(50), default="General")
     price = db.Column(db.Numeric(10,2), nullable=False)
+    
+    
 
 @app.route("/")
 def hello_world():
@@ -37,6 +39,31 @@ def create_product():
     db.session.add(new_product)
     db.session.commit()
     return jsonify({'message': 'Product created successfully'})
+
+
+
+
+@app.route("/products")
+@app.route("/products/<id>")
+def article(id=-1):
+    if id == -1:
+        products = Product.query.all()
+    else:
+        products = [Product.query.get(id)]
+    return_data = []
+    for product in products:
+        return_data.append(
+            {
+                'id': product.id,
+                'name': product.name,
+                'price': product.price,
+                'stock': product.stock,
+                'category': product.category
+            })
+    if id != -1:
+        return jsonify(return_data[0])
+
+    return jsonify(return_data)
     
     
 with app.app_context():
