@@ -22,7 +22,7 @@ class Product(db.Model):
     stock = db.Column(db.Integer, default=0)
     category = db.Column(db.String(50), default="General")
     price = db.Column(db.Numeric(10,2), nullable=False)
-    # image = db.Column(db.String(100))
+    image = db.Column(db.String(100), nullable=False)
     
     
 
@@ -44,7 +44,9 @@ def hello_world():
 def create_product():
     data = request.get_json()    
     # add new article
-    new_product = Product(name=data['name'], stock=data['stock'], category=data['category'],price=data['price'])
+    new_product = Product(**data)
+    # new_product = Product(
+    #     name=data['name'], stock=data['stock'], category=data['category'],price=data['price'],image=data['image'])
     db.session.add(new_product)
     db.session.commit()
     return jsonify({'message': 'Product created successfully'})
@@ -67,7 +69,8 @@ def article(id=-1):
                 'name': product.name,
                 'price': product.price,
                 'stock': product.stock,
-                'category': product.category
+                'category': product.category,
+                'image':product.image
             })
     if id != -1:
         return jsonify(return_data[0])
