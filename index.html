@@ -79,13 +79,15 @@
         </form>
     </footer>
     <script>
-         function deleteProduct(articleID) {
-            console.log('delete student', articleID);
+        const HOST = 'http://127.0.0.1:9000'
+         function deleteProduct(productID) {
+            console.log('delete product', productID);
             // debugger
-            axios.delete(`https://news-api-test-1.onrender.com/delete_article/${articleID}`)
+            axios.delete(`${HOST}/delete_product/${productID}`)            
         }
 
-        axios.get('http://127.0.0.1:9000/products').then(res => {
+        
+        axios.get(`${HOST}/products`).then(res => {
             console.log(res.data);
             const products = res.data
             const resultHTML = products.map(product => `<div class="col-sm-4">

@@ -53,6 +53,18 @@ def create_product():
 
 
 
+@app.route('/delete_product/<int:id>', methods=['DELETE'])
+def delete_product(id):
+    product = Product.query.get(id)
+    if product:
+        db.session.delete(product)
+        db.session.commit()
+        return jsonify({'message': 'Deleted successfully'})
+    else:
+        return jsonify({'message': f'Error deleting {id}'})
+
+
+
 
 @app.route("/products")
 @app.route("/products/<id>")
