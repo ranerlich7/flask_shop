@@ -1,9 +1,15 @@
 from flask import Flask, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
+import os
+from dotenv import load_dotenv
+load_dotenv()
 
+DB_HOST = os.environ.get('DB_HOST')
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///myshop.db'
+# app.config['SQLALCHEMY_DATABASE_URI'] = DB_HOST
+# app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 
@@ -14,6 +20,7 @@ class Product(db.Model):
     stock = db.Column(db.Integer, default=0)
     category = db.Column(db.String(50), default="General")
     price = db.Column(db.Numeric(10,2), nullable=False)
+    # image = db.Column(db.String(100))
     
     
 
@@ -68,6 +75,5 @@ def article(id=-1):
     
 with app.app_context():
     db.create_all()
-
 if __name__ == '__main__':
    app.run(debug=True, port=9000)
