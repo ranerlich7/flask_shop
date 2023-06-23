@@ -1,5 +1,6 @@
 from flask import Flask, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
+from flask_cors import CORS
 import os
 from dotenv import load_dotenv
 load_dotenv()
@@ -7,6 +8,7 @@ load_dotenv()
 DB_HOST = os.environ.get('DB_HOST')
 
 app = Flask(__name__)
+CORS(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///myshop.db'
 # app.config['SQLALCHEMY_DATABASE_URI'] = DB_HOST
 # app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
