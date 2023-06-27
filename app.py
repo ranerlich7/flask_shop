@@ -28,7 +28,7 @@ class Product(db.Model):
 
 @app.route("/")
 def hello_world():
-   return "<p>Hello, World!</p>"
+   return "<p>Hello, Server is live now please right click on index.html!</p>"
 
 # this function recieves a json product:
 # for example. we can call thunder client http:127.0.0.1:9000/create_product

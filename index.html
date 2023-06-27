@@ -51,7 +51,10 @@
             <div class="collapse navbar-collapse" id="myNavbar">
                 <ul class="nav navbar-nav">
                     <li class="active"><a href="#">Home</a></li>
-                    <li><a href="#">Products</a></li>
+                    <li><a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                        Add Product
+                      </a></li>
+
                     <li><a href="#">Deals</a></li>
                     <li><a href="#">Stores</a></li>
                     <li><a href="#">Contact</a></li>
@@ -65,6 +68,24 @@
     </nav>
 
     <div class="container">
+        <div class="row" >
+            Name:<input id="prodName">
+            <br>
+            Category: <input id="prodCategory">
+            <br>
+            Price: <input id="prodPrice">
+            <br>
+            Stock: <input id="prodStock">
+            <br>
+            Image: <input id="prodImage">
+            <br>
+            <button class="btn btn-primary" onclick="addProduct()">Add Product</button>
+            <br>
+            <br>
+
+        </div>
+
+
         <div class="row" id="articlerow">
         </div>
     </div><br>
@@ -80,6 +101,24 @@
     </footer>
     <script>
         const HOST = 'http://127.0.0.1:9000'
+
+        function addProduct(){
+            console.log("ADD PRODUCT !!!!!!")
+            console.log(`Name:${prodName.value}`)
+            newProduct = {
+                name: prodName.value, 
+                category: prodCategory.value, 
+                stock: prodStock.value, 
+                price: prodPrice.value, 
+                image: prodImage.value, 
+            }
+            console.log(`THE NEW PRODUCT IS:${newProduct}`)
+            // debugger
+            axios.post(`${HOST}/create_product`, newProduct)
+
+
+        }
+
          function deleteProduct(productID) {
             console.log('delete product', productID);
             // debugger
