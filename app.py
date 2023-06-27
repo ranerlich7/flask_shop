@@ -52,6 +52,18 @@ def create_product():
     return jsonify({'message': 'Product created successfully'})
 
 
+@app.route('/update_product/<id>', methods=['POST'])
+def update_product(id):
+    product = Product.query.get(id)
+    data = request.get_json()    
+    product.name = data['name']
+    product.category = data['category']
+    product.price = data['price']
+    product.stock = data['stock']
+    product.image = data['image']
+    db.session.commit()
+    return jsonify({'message': 'Product updated successfully'})
+
 
 @app.route('/delete_product/<int:id>', methods=['DELETE'])
 def delete_product(id):

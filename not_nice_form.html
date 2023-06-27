@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+
+<body>
+    Product Add form
+    <br>
+    Name:<input id="prodName">
+    <br>
+    Category: <input id="prodCategory">
+    <br>
+    Price: <input id="prodPrice">
+    <br>
+    Stock: <input id="prodStock">
+    <br>
+    Image: <input id="prodImage">
+    <br>
+    <button class="btn btn-primary" onclick="addProduct()">Add Product</button>
+
+    <script>
+        function addProduct() {
+            console.log("ADD PRODUCT !!!!!!")
+            newProduct = {
+                name: prodName.value,
+                category: prodCategory.value,
+                stock: prodStock.value,
+                price: prodPrice.value,
+                image: prodImage.value,
+            }
+            console.log(`THE NEW PRODUCT IS:${newProduct}`)
+
+            // send a post request to the server
+            axios.post(`http://127.0.0.1:9000/create_product`, newProduct) 
+
+
+        }
+    </script>
+</body>
+
+</html>

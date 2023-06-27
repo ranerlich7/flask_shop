@@ -55,7 +55,7 @@
                         Add Product
                       </a></li>
 
-                    <li><a href="#">Deals</a></li>
+                    <li><a href="/not_nice_form.html">Not Nice Add</a></li>
                     <li><a href="#">Stores</a></li>
                     <li><a href="#">Contact</a></li>
                 </ul>
@@ -125,6 +125,12 @@
             axios.delete(`${HOST}/delete_product/${productID}`)            
         }
 
+        function updateProduct(product) {
+            console.log('update product');
+            console.log(product)
+
+            
+        }
         
         axios.get(`${HOST}/products`).then(res => {
             console.log(res.data);
@@ -138,7 +144,9 @@
                         </div>
                     <div class="panel-footer">${product.price} - stock: ${product.stock} </div>
                     <button class="btn btn-danger" onclick="deleteProduct(${product.id})">DELETE</button>
+                    <button class="btn btn-primary" onclick="updateProduct(${product})">UPDATE</button>
                 </div>
+
             </div>`).join('');
             articlerow.innerHTML = resultHTML;
 
