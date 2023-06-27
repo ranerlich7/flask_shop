@@ -6,6 +6,6 @@
 4. pip install -r requirements.txt
 
 # Run:
-python app.py
-index.html - right click open with live server
+1. python app.py
+2. index.html - right click open with live server
 
