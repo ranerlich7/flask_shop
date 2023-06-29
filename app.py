@@ -52,7 +52,7 @@ def create_product():
     return jsonify({'message': 'Product created successfully'})
 
 
-@app.route('/update_product/<id>', methods=['POST'])
+@app.route('/update_product/<id>', methods=['PUT'])
 def update_product(id):
     product = Product.query.get(id)
     data = request.get_json()    

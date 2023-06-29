@@ -51,9 +51,10 @@
             <div class="collapse navbar-collapse" id="myNavbar">
                 <ul class="nav navbar-nav">
                     <li class="active"><a href="#">Home</a></li>
-                    <li><a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-                        Add Product
-                      </a></li>
+                    <li><a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button"
+                            aria-expanded="false" aria-controls="collapseExample">
+                            Add Product
+                        </a></li>
 
                     <li><a href="/not_nice_form.html">Not Nice Add</a></li>
                     <li><a href="#">Stores</a></li>
@@ -68,7 +69,7 @@
     </nav>
 
     <div class="container">
-        <div class="row" >
+        <div class="row">
             Name:<input id="prodName">
             <br>
             Category: <input id="prodCategory">
@@ -102,15 +103,15 @@
     <script>
         const HOST = 'http://127.0.0.1:9000'
 
-        function addProduct(){
+        function addProduct() {
             console.log("ADD PRODUCT !!!!!!")
             console.log(`Name:${prodName.value}`)
             newProduct = {
-                name: prodName.value, 
-                category: prodCategory.value, 
-                stock: prodStock.value, 
-                price: prodPrice.value, 
-                image: prodImage.value, 
+                name: prodName.value,
+                category: prodCategory.value,
+                stock: prodStock.value,
+                price: prodPrice.value,
+                image: prodImage.value,
             }
             console.log(`THE NEW PRODUCT IS:${newProduct}`)
             // debugger
@@ -119,19 +120,32 @@
 
         }
 
-         function deleteProduct(productID) {
+        function deleteProduct(productID) {
             console.log('delete product', productID);
             // debugger
-            axios.delete(`${HOST}/delete_product/${productID}`)            
+            axios.delete(`${HOST}/delete_product/${productID}`)
         }
 
-        function updateProduct(product) {
+        function updateProduct(productID) {
             console.log('update product');
-            console.log(product)
+            console.log(productID)
+            axios.get(`${HOST}/products/${productID}`).then(res => {
+                console.log('PRODUCT', res.data);
+                product = res.data
+                newProduct = {
+                    name: prodName.value ? prodName.value : product.name,
+                    category: prodCategory.value ? prodCategory.value : product.category,
+                    stock: prodStock.value ? prodStock.value : product.stock,
+                    price: prodPrice.value ? prodPrice.value : product.price,
+                    image: prodImage.value ? prodImage.value : product.image,
+                }
+                axios.put(`${HOST}/update_product/${productID}`, newProduct)
+            })
 
-            
+
+
         }
-        
+
         axios.get(`${HOST}/products`).then(res => {
             console.log(res.data);
             const products = res.data
@@ -144,7 +158,8 @@
                         </div>
                     <div class="panel-footer">${product.price} - stock: ${product.stock} </div>
                     <button class="btn btn-danger" onclick="deleteProduct(${product.id})">DELETE</button>
-                    <button class="btn btn-primary" onclick="updateProduct(${product})">UPDATE</button>
+                    <button class="btn btn-primary" onclick="updateProduct(${product.id})">UPDATE</button>
+                    
                 </div>
 
             </div>`).join('');
