@@ -4,6 +4,7 @@ from flask_cors import CORS
 import os
 from dotenv import load_dotenv
 load_dotenv()
+from flask_migrate import Migrate
 
 DB_HOST = os.environ.get('DB_HOST')
 
@@ -13,6 +14,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///myshop.db'
 # app.config['SQLALCHEMY_DATABASE_URI'] = DB_HOST
 # app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
+migrate = Migrate(app, db)
 
 
 
@@ -20,11 +22,19 @@ class Product(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80), nullable=False)
     stock = db.Column(db.Integer, default=0)
-    category = db.Column(db.String(50), default="General")
+    # category = db.Column(db.String(50), default="General")
     price = db.Column(db.Numeric(10,2), nullable=False)
     image = db.Column(db.String(100), nullable=False)
-    
-    
+    description = db.Column(db.String(400))
+    manufacturer = db.Column(db.String(400), nullable=False, server_default='GENERIC')
+    category_id = db.Column(db.Integer, db.ForeignKey('category.id',name='fk_product_category'), nullable=False, server_default='1')
+    category = db.relationship('Category', backref='category')
+
+class Category(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(80), nullable=False)
+
+
 
 @app.route("/")
 def hello_world():
