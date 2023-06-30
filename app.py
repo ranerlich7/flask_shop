@@ -28,7 +28,14 @@ class Product(db.Model):
 
 @app.route("/")
 def hello_world():
-   return "<p>Hello, Server is live now please right click on index.html!</p>"
+   return """<p>Hello, Server is live now please right click on index.html!</p>
+    Api endpoints: <br>
+    /create_product - recieves POST request + product json <br>
+    /update_product/id - recieves PUT request product id and json. and updates product <br>
+    /delete_product/id - recieves DELETE request product id. and deletes product <br>
+    /products - GET request to get all products <br>
+    /products/<id> - GET request with id to get single product <br>
+"""
 
 # this function recieves a json product:
 # for example. we can call thunder client http:127.0.0.1:9000/create_product
@@ -52,15 +59,18 @@ def create_product():
     return jsonify({'message': 'Product created successfully'})
 
 
-@app.route('/update_product/<id>', methods=['POST'])
+@app.route('/update_product/<id>', methods=['PUT'])
 def update_product(id):
+    # getting the product by id from the db
     product = Product.query.get(id)
+    # getting the json of the updated product from request
     data = request.get_json()    
     product.name = data['name']
     product.category = data['category']
     product.price = data['price']
     product.stock = data['stock']
     product.image = data['image']
+    # saving to the database
     db.session.commit()
     return jsonify({'message': 'Product updated successfully'})
 
